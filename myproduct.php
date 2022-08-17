@@ -22,7 +22,7 @@ class ControllerExtensionModuleMyproduct extends Controller
         $data['header'] = $this->load->controller('common/header');
         $data['add'] = $this->url->link('extension/module/myproduct/addProduct', 'user_token=' . $this->session->data['user_token'] . $url, true);
         $data['get'] = $this->url->link('extension/module/myproduct/getXMLProducts', 'user_token=' . $this->session->data['user_token'] . $url, true);
-
+        $data['productsXML'] = $this->getXMLProducts();
         // $this->response->setOutput($this->load->view('product/product', $data));
         $this->response->setOutput($this->load->view('extension/module/myview', $data));
     }
@@ -65,13 +65,13 @@ class ControllerExtensionModuleMyproduct extends Controller
 
         $rowsData = $this->model_catalog_product->getProducts();
 
-        // $this->response->redirect($this->url->link('extension/module/myproduct', 'user_token=' . $this->session->data['user_token'], true));
+        return $this->makeXML($rowsData, 'products', 'product');
 
-        $data['prodXML'] = $this->makeXML($rowsData, 'products', 'product');
-        $data['index'] = $this->url->link('extension/module/myproduct', 'user_token=' . $this->session->data['user_token'], true);
+        // $data['prodXML'] = $this->makeXML($rowsData, 'products', 'product');
+        // $data['index'] = $this->url->link('extension/module/myproduct', 'user_token=' . $this->session->data['user_token'], true);
 
-        $this->response->setOutput($this->load->view('extension/module/getProductsXML', $data));
-        // $this->response->setOutput($this->load->view('extension/module/myview', $data));
+        // $this->response->setOutput($this->load->view('extension/module/getProductsXML', $data));
+        
 
 
 
