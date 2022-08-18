@@ -27,7 +27,7 @@ class ControllerExtensionModuleMyproduct extends Controller
         $this->response->setOutput($this->load->view('extension/module/myview', $data));
     }
 
-    public function addProduct()
+    public function addXML()
     {
 
         $this->load->model('catalog/product');
@@ -53,8 +53,14 @@ class ControllerExtensionModuleMyproduct extends Controller
                 $this->model_catalog_product->addProduct($array);
             }
 
-            $this->response->redirect($this->url->link('extension/module/myproduct', 'user_token=' . $this->session->data['user_token'], true));
+            // $this->response->redirect($this->url->link('extension/module/myproduct', 'user_token=' . $this->session->data['user_token'], true));
         }
+    }
+
+    public function addProduct() {
+        $this->load->model('catalog/product');
+        $data['model'] = $this->request->post['model'];
+        $this->model_catalog_product->addProduct($data);
     }
 
     public function getXMLProducts()
