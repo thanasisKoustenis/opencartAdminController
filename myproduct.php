@@ -59,8 +59,9 @@ class ControllerExtensionModuleMyproduct extends Controller
 
     public function addProduct() {
         $this->load->model('catalog/product');
-        $data['model'] = $this->request->post['model'];
-        $this->model_catalog_product->addProduct($data);
+        $data['test'] = $this->request->post['model'];
+        return $data['test'];
+        // $this->model_catalog_product->addProduct($data);
     }
 
     public function getXMLProducts()
