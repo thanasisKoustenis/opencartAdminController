@@ -21,15 +21,16 @@ class ControllerExtensionModuleMyproduct extends Controller
         $data['footer'] = $this->load->controller('common/footer');
         $data['header'] = $this->load->controller('common/header');
         // $data['add'] = $this->url->link('extension/module/myproduct/addProduct', 'user_token=' . $this->session->data['user_token'], true);
-        $data['add'] = $this->url->link('extension/module/myproduct/testFunc', 'user_token=' . $this->session->data['user_token'], true);
+        $data['add'] = $this->url->link('extension/module/myproduct/addProduct', 'user_token=' . $this->session->data['user_token'], true);
         $data['get'] = $this->url->link('extension/module/myproduct/getXMLProducts', 'user_token=' . $this->session->data['user_token'], true);
+        $data['addXML'] = $this->url->link('extension/module/myproduct/addXMLProduct', 'user_token=' . $this->session->data['user_token'], true);
         $data['productsXML'] = $this->getXMLProducts();
-        $data['test'] = $this->testFunc();
+        $data['test'] = $this->addProduct();
         // $this->response->setOutput($this->load->view('product/product', $data));
         $this->response->setOutput($this->load->view('extension/module/myview', $data));
     }
 
-    public function addXML()
+    public function addXMLProduct()
     {
 
         $this->load->model('catalog/product');
@@ -51,19 +52,14 @@ class ControllerExtensionModuleMyproduct extends Controller
                 // }
 
                 $xml = simplexml_load_string($postData);
+                $array = array();
                 $array = $this->convertXMLtoArray($xml);
                 $this->model_catalog_product->addProduct($array);
             }
 
-            // $this->response->redirect($this->url->link('extension/module/myproduct', 'user_token=' . $this->session->data['user_token'], true));
+            $this->response->redirect($this->url->link('extension/module/myproduct', 'user_token=' . $this->session->data['user_token'], true));
         }
     }
-
-    public function testFunc() {
-        return $this->request->post['model'];
-    }
-
-    
 
     public function addProduct()
     {
@@ -73,7 +69,7 @@ class ControllerExtensionModuleMyproduct extends Controller
 
             $this->model_catalog_product->addProduct($this->request->post);
             // $this->response->setOutput($this->load->view('extension/module/myview', $data));
-            // $this->response->redirect($this->url->link('extension/module/myproduct', 'user_token=' . $this->session->data['user_token'], true));
+            $this->response->redirect($this->url->link('extension/module/myproduct', 'user_token=' . $this->session->data['user_token'], true));
         }
         // $this->model_catalog_product->addProduct($data);
     }
@@ -187,8 +183,9 @@ class ControllerExtensionModuleMyproduct extends Controller
             $row_num = $row_num + 1;
         }
 
+        $xml->save("exportProducts.xml");
         return "" . $xml->saveXML() . "";
-        // $xml->save("report.xml");
+        
     }
 
     protected function validate()
