@@ -14,7 +14,7 @@ class ControllerExtensionModuleMyproduct extends Controller
 
         $daata = array();
 
-        
+
 
         // $data['products'] = $this->model_catalog_product->getProducts();
         $data['column_left'] = $this->load->controller('common/column_left');
@@ -35,27 +35,34 @@ class ControllerExtensionModuleMyproduct extends Controller
 
         $this->load->model('catalog/product');
 
-        $postData = $this->request->post;
+        // $postData = $this->request->post['product'];
 
         if ($this->request->server['REQUEST_METHOD'] == 'POST') {
 
             // $postData = trim(file_get_contents('php://input'));
 
-            if (isset($postData)) {
+            $xml = simplexml_load_file('inputdata.xml');
+            $data['product_id'] = $xml['product_id'];
+            $data['name'] = $xml['name'];
+            $data['description'] = $xml['description'];
+            $this->model_catalog_product->addProduct($data);
+            // if (isset($postData)) {
 
 
-                // $xmlDoc = new DOMDocument();
-                // $xmlDoc->load($postData);
+            // $xmlDoc = new DOMDocument();
+            // $xmlDoc->load($postData);
 
-                // foreach ($xmlDoc->childNodes as $item) {
-                //     echo $item->nodeName . ' = ' . $item->nodeValue . '<br>';
-                // }
+            // foreach ($xmlDoc->childNodes as $item) {
+            //     echo $item->nodeName . ' = ' . $item->nodeValue . '<br>';
+            // }
 
-                $xml = simplexml_load_string($postData);
-                $array = array();
-                $array = $this->convertXMLtoArray($xml);
-                $this->model_catalog_product->addProduct($array);
-            }
+            // $xml = simplexml_load_string($postData);
+
+            // $array = array();
+            // $array = $this->convertXMLtoArray($xml);
+            // $data = array();
+
+            // }
 
             $this->response->redirect($this->url->link('extension/module/myproduct', 'user_token=' . $this->session->data['user_token'], true));
         }
@@ -67,7 +74,11 @@ class ControllerExtensionModuleMyproduct extends Controller
 
         if ($this->request->server['REQUEST_METHOD'] == 'POST') {
 
-            $this->model_catalog_product->addProduct($this->request->post);
+            $data = array();
+            $data['model'] = $this->request->post['model'];
+            $data['model'] = $this->request->post['model'];
+            $data['model'] = $this->request->post['model'];
+            $this->model_catalog_product->addProduct($data);
             // $this->response->setOutput($this->load->view('extension/module/myview', $data));
             $this->response->redirect($this->url->link('extension/module/myproduct', 'user_token=' . $this->session->data['user_token'], true));
         }
@@ -185,7 +196,6 @@ class ControllerExtensionModuleMyproduct extends Controller
 
         $xml->save("exportProducts.xml");
         return "" . $xml->saveXML() . "";
-        
     }
 
     protected function validate()
