@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<product>
+    <model>789</model>
+    <product_id>1001</product_id>
+    <name>Fender telecaster</name>
+    <description>Electric guitar</description>
+    <meta_title>sdf</meta_title>
+    <quantity>7</quantity>
+    <stock_status>2-3 Days</stock_status>
+    <image>catalog/demo/canon_eos_5d_1.jpg</image>
+    <manufacturer_id>9</manufacturer_id>
+    <manufacturer>Canon</manufacturer>
+    <price>500.0000</price>
+    <special>80.0000</special>
+    <reward>200</reward>
+    <points>0</points>
+    <tax_class_id>9</tax_class_id>
+    <date_available>2009-02-03</date_available>
+    <weight>0.00000000</weight>
+    <weight_class_id>1</weight_class_id>
+    <length>0.00000000</length>
+    <width>0.00000000</width>
+    <height>0.00000000</height>
+    <length_class_id>1</length_class_id>
+    <subtract>1</subtract>
+    <rating>0</rating>
+    <reviews>0</reviews>
+    <minimum>1</minimum>
+    <sort_order>0</sort_order>
+    <status>1</status>
+    <date_added>2009-02-03 16:59:00</date_added>
+    <date_modified>2011-09-30 01:05:23</date_modified>
+    <viewed>0</viewed>
+</product>

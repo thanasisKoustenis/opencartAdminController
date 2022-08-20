@@ -1,20 +1,21 @@
 <?xml version="1.0"?>
-<product>
+<products>
+    <product>
         <product_id>1001</product_id>
         <name>Fender telecaster</name>
         <description>Electric guitar</description>
         <meta_title>sdf</meta_title>
-        <meta_description/>
-        <meta_keyword/>
-        <tag/>
+        <meta_description> </meta_description>
+        <meta_keyword> </meta_keyword>
+        <tag />
         <model>Product 3</model>
-        <sku/>
-        <upc/>
-        <ean/>
-        <jan/>
-        <isbn/>
-        <mpn/>
-        <location/>
+        <sku />
+        <upc />
+        <ean />
+        <jan />
+        <isbn />
+        <mpn />
+        <location />
         <quantity>7</quantity>
         <stock_status>2-3 Days</stock_status>
         <image>catalog/demo/canon_eos_5d_1.jpg</image>
@@ -42,3 +43,4 @@
         <date_modified>2011-09-30 01:05:23</date_modified>
         <viewed>0</viewed>
     </product>
+</products>

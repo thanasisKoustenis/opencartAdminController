@@ -31,41 +31,70 @@ class ControllerExtensionModuleMyproduct extends Controller
     }
 
     public function addXMLProduct()
-    {
-
+    {   
+        
         $this->load->model('catalog/product');
 
-        // $postData = $this->request->post['product'];
+        $inputFile = $this->request->post['xmlFile'];
 
+        $xmlDoc = new DOMDocument();
+        $xmlDoc->load($inputFile);
+        $xml = $xmlDoc->documentElement;
+        $data = array();
+        
         if ($this->request->server['REQUEST_METHOD'] == 'POST') {
-
-            // $postData = trim(file_get_contents('php://input'));
-
-            $xml = simplexml_load_file('inputdata.xml');
-            $data['product_id'] = $xml['product_id'];
-            $data['name'] = $xml['name'];
-            $data['description'] = $xml['description'];
-            $this->model_catalog_product->addProduct($data);
-            // if (isset($postData)) {
-
-
-            // $xmlDoc = new DOMDocument();
-            // $xmlDoc->load($postData);
-
-            // foreach ($xmlDoc->childNodes as $item) {
-            //     echo $item->nodeName . ' = ' . $item->nodeValue . '<br>';
-            // }
-
-            // $xml = simplexml_load_string($postData);
-
-            // $array = array();
-            // $array = $this->convertXMLtoArray($xml);
-            // $data = array();
-
-            // }
-
-            $this->response->redirect($this->url->link('extension/module/myproduct', 'user_token=' . $this->session->data['user_token'], true));
+            foreach ($xml->childNodes as $rows) {
+                $data[$rows->nodeName] = $rows->nodeValue;
+                
+            }
         }
+
+        $this->model_catalog_product->addProduct($data);
+
+        $this->response->redirect($this->url->link('extension/module/myproduct', 'user_token=' . $this->session->data['user_token'], true));
+
+        // $xmlFile = file_get_contents('inputdata2.xml');
+        // $this->load->model('catalog/product');
+        
+
+        // // $postData = $this->request->post['product'];
+
+        // if ($this->request->server['REQUEST_METHOD'] == 'POST') {
+
+        //     // $postData = trim(file_get_contents('php://input'));
+
+        //     $xml = simplexml_load_string($xmlFile);
+        //     $data = array();
+
+        //     foreach ($xml->children() as $rows) {
+        //         $data['product_id'] = $rows['product_id'];
+        //         $data['name'] = $rows['name'];
+        //         $data['description'] = $rows['description'];
+
+        //         $this->model_catalog_product->addProduct($data);
+        //     }
+            
+            
+        //     // if (isset($postData)) {
+
+
+        //     // $xmlDoc = new DOMDocument();
+        //     // $xmlDoc->load($postData);
+
+        //     // foreach ($xmlDoc->childNodes as $item) {
+        //     //     echo $item->nodeName . ' = ' . $item->nodeValue . '<br>';
+        //     // }
+
+        //     // $xml = simplexml_load_string($postData);
+
+        //     // $array = array();
+        //     // $array = $this->convertXMLtoArray($xml);
+        //     // $data = array();
+
+        //     // }
+
+        //     $this->response->redirect($this->url->link('extension/module/myproduct', 'user_token=' . $this->session->data['user_token'], true));
+        // }
     }
 
     public function addProduct()
@@ -206,4 +235,21 @@ class ControllerExtensionModuleMyproduct extends Controller
 
         return !$this->error;
     }
+
+    // public function readXML($xml) {
+        
+    //     $rowProperties = array();
+    //     $tableRows = array();
+    //     $xmlDoc = new DOMDocument();
+    //     $xmlDoc->load("inputdata.xml");
+    //     $xml = $xmlDoc->documentElement;
+
+    //     foreach ($xml->childNodes as $rows) {
+    //         foreach ($rows as $key => $value) {
+    //             $$rowProperties[$key] = $value;
+    //         }
+    //         $tableRows = 
+    //     }
+        
+    // }
 }
