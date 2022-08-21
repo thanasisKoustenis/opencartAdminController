@@ -1,6 +1,6 @@
 <?php
 
-class ControllerExtensionModuleProductapp extends Controller {
+class ControllerExtensionModuleAproductapp extends Controller {
     private $error = array();
 
     public function index() {
@@ -78,15 +78,16 @@ class ControllerExtensionModuleProductapp extends Controller {
                 'status' => $results[$row_count]['status']
             );
 
-            $row_count ++;
+            $row_count = $row_count + 1;
         }
 
         $data['header'] = $this->load->controller('common/header');
 		$data['column_left'] = $this->load->controller('common/column_left');
 		$data['footer'] = $this->load->controller('common/footer');
+        $data['test'] = "test";
 
 
-        $this->response->setOutput($this->load->view('extension/module/productapp'), $data); 
+        $this->response->setOutput($this->load->view('extension/module/aproductapp'), $data); 
     }
 
 

@@ -25,7 +25,7 @@ class ControllerExtensionModuleMyproduct extends Controller
         $data['get'] = $this->url->link('extension/module/myproduct/getXMLProducts', 'user_token=' . $this->session->data['user_token'], true);
         $data['addXML'] = $this->url->link('extension/module/myproduct/addXMLProduct', 'user_token=' . $this->session->data['user_token'], true);
         $data['productsXML'] = $this->getXMLProducts();
-        $data['test'] = $this->addProduct();
+        $data['test'] = "test";
         // $this->response->setOutput($this->load->view('product/product', $data));
         $this->response->setOutput($this->load->view('extension/module/myview', $data));
     }
