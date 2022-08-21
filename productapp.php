@@ -1,7 +1,5 @@
 <?php
-
-class ControllerExtensionModuleAproductapp extends Controller {
-    private $error = array();
+class ControllerExtensionModuleProductapp extends Controller {
 
     public function index() {
         $this->load->language('catalog/product');
@@ -78,7 +76,7 @@ class ControllerExtensionModuleAproductapp extends Controller {
                 'status' => $results[$row_count]['status']
             );
 
-            $row_count = $row_count + 1;
+            $row_count ++;
         }
 
         $data['header'] = $this->load->controller('common/header');
@@ -87,7 +85,7 @@ class ControllerExtensionModuleAproductapp extends Controller {
         $data['test'] = "test";
 
 
-        $this->response->setOutput($this->load->view('extension/module/aproductapp'), $data); 
+        $this->response->setOutput($this->load->view('extension/module/productapp'), $data); 
     }
 
 
