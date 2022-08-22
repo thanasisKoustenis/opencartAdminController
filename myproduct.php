@@ -23,9 +23,9 @@ class ControllerExtensionModuleMyproduct extends Controller
         // $data['add'] = $this->url->link('extension/module/myproduct/addProduct', 'user_token=' . $this->session->data['user_token'], true);
         $data['add'] = $this->url->link('extension/module/myproduct/addProduct', 'user_token=' . $this->session->data['user_token'], true);
         $data['get'] = $this->url->link('extension/module/myproduct/getXMLProducts', 'user_token=' . $this->session->data['user_token'], true);
-        $data['addXML'] = $this->url->link('extension/module/myproduct/addXMLProductDOM', 'user_token=' . $this->session->data['user_token'], true);
+        $data['addXML'] = $this->url->link('extension/module/myproduct/addXMLProductEasy', 'user_token=' . $this->session->data['user_token'], true);
         $data['productsXML'] = $this->getXMLProducts();
-        $data['test'] = "test";
+        $data['test'] = "test112311";
         // $this->response->setOutput($this->load->view('product/product', $data));
         $this->response->setOutput($this->load->view('extension/module/myview', $data));
     }
@@ -108,58 +108,6 @@ class ControllerExtensionModuleMyproduct extends Controller
         // $postData = $this->request->post['xmlData'];
         $this->load->model('catalog/product');
 
-
-        $xmldata = <<<XML
-        <product>
-        <product_id>1001</product_id>
-        <name>Fender telecaster</name>
-        <description>Electric guitar</description>
-        <meta_title>sdf</meta_title>
-        <meta_description> </meta_description>
-        <meta_keyword> </meta_keyword>
-        <tag></tag>
-        <model>Product 3</model>
-        <stock_status />
-        <stock_status_id />
-        <shipping />
-        <product_description />
-        <sku />
-        <upc />
-        <ean />
-        <jan />
-        <isbn />
-        <mpn />
-        <location />
-        <quantity>7</quantity>
-        <stock_status>2-3 Days</stock_status>
-        <image>catalog/demo/canon_eos_5d_1.jpg</image>
-        <manufacturer_id>9</manufacturer_id>
-        <manufacturer>Canon</manufacturer>
-        <price>500.0000</price>
-        <special>80.0000</special>
-        <reward>200</reward>
-        <points>0</points>
-        <tax_class_id>9</tax_class_id>
-        <date_available>2009-02-03</date_available>
-        <weight>0.00000000</weight>
-        <weight_class_id>1</weight_class_id>
-        <length>0.00000000</length>
-        <width>0.00000000</width>
-        <height>0.00000000</height>
-        <length_class_id>1</length_class_id>
-        <subtract>1</subtract>
-        <rating>0</rating>
-        <reviews>0</reviews>
-        <minimum>1</minimum>
-        <sort_order>0</sort_order>
-        <status>1</status>
-        <date_added>2009-02-03 16:59:00</date_added>
-        <date_modified>2011-09-30 01:05:23</date_modified>
-        <viewed>0</viewed>
-        </product>
-        
-        XML;
-
         if ($this->request->server['REQUEST_METHOD'] == 'POST') {
 
 
@@ -175,7 +123,7 @@ class ControllerExtensionModuleMyproduct extends Controller
                 // $data['name'] = $item->name;
                 // $data['model'] = $item->model;
 
-                
+
             }
 
             print_r($data);
@@ -185,60 +133,9 @@ class ControllerExtensionModuleMyproduct extends Controller
         }
     }
 
-    public function addXMLProductDOM() {
+    public function addXMLProductDOM()
+    {
         $this->load->model('catalog/product');
-
-
-        $xmldata = <<<XML
-        <product>
-        <product_id>1001</product_id>
-        <name>Fender telecaster</name>
-        <description>Electric guitar</description>
-        <meta_title>sdf</meta_title>
-        <meta_description></meta_description>
-        <meta_keyword></meta_keyword>
-        <tag></tag>
-        <model>Product 3</model>
-        <stock_status></stock_status>
-        <stock_status_id></stock_status_id>
-        <shipping></shipping>
-        <product_description></product_description>
-        <sku></sku>
-        <upc></upc>
-        <ean></ean>
-        <jan></jan>
-        <isbn></isbn>
-        <mpn></mpn>
-        <location></location>
-        <quantity>7</quantity>
-        <stock_status>2-3 Days</stock_status>
-        <image>catalog/demo/canon_eos_5d_1.jpg</image>
-        <manufacturer_id>9</manufacturer_id>
-        <manufacturer>Canon</manufacturer>
-        <price>500.0000</price>
-        <special>80.0000</special>
-        <reward>200</reward>
-        <points>0</points>
-        <tax_class_id>9</tax_class_id>
-        <date_available>2009-02-03</date_available>
-        <weight>0.00000000</weight>
-        <weight_class_id>1</weight_class_id>
-        <length>0.00000000</length>
-        <width>0.00000000</width>
-        <height>0.00000000</height>
-        <length_class_id>1</length_class_id>
-        <subtract>1</subtract>
-        <rating>0</rating>
-        <reviews>0</reviews>
-        <minimum>1</minimum>
-        <sort_order>0</sort_order>
-        <status>1</status>
-        <date_added>2009-02-03 16:59:00</date_added>
-        <date_modified>2011-09-30 01:05:23</date_modified>
-        <viewed>0</viewed>
-        </product>
-        
-        XML;
 
         if ($this->request->server['REQUEST_METHOD'] == 'POST') {
             $xmlDoc = new DOMDocument();
@@ -251,7 +148,26 @@ class ControllerExtensionModuleMyproduct extends Controller
                 $data[$item->nodeName] = $data[$item->nodeValue];
             }
 
-            print_r($data);
+            print_r($xmlDoc);
+            $this->model_catalog_product->addProduct($data);
+        }
+    }
+
+    public function addXMLProductEasy()
+    {
+        $this->load->model('catalog/product');
+
+        if ($this->request->server['REQUEST_METHOD'] == 'POST') {
+
+            $xml = simplexml_load_file('controller/extension/module/inputdata3.xml');
+            $json = json_encode($xml);
+            $array = json_decode($json, true);
+            $data = array();
+            foreach ($array as $key => $value) {
+                $data[$key] = $value;
+            }
+            // print_r($array);
+            // print_r($data);
             $this->model_catalog_product->addProduct($data);
         }
     }
