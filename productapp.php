@@ -102,7 +102,34 @@ class ControllerExtensionModuleProductapp extends Controller {
 
     public function addProductForm() {
 
+        $this->load->language('catalog/product');
+
+        $this->document->setTitle($this->language->get('text_add'));
+
+        $this->load->model('catalog/product');
+
         $data= array();
+
+        $data['header'] = $this->load->controller('common/header');
+		$data['column_left'] = $this->load->controller('common/column_left');
+		$data['footer'] = $this->load->controller('common/footer');
+
+        $data['title'] = $this->language->get('text_add');
+
+        $data['breadcrumbs'][] = array(
+            'text'=> $this->language->get('text_home'),
+            'href'=> $this->url->link('common/dashboard' . '&user_token=' . $this->session->data['user_token'], true)
+        );
+
+        $data['breadcrumbs'][] = array(
+            'text'=> $this->language->get('heading_title'),
+            'href'=> $this->url->link('extension/module/productapp' . '&user_token=' . $this->session->data['user_token'], true)
+        );
+
+        $data['breadcrumbs'][] = array(
+            'text'=> $this->language->get('text_add'),
+            'href'=> $this->url->link('extension/module/productapp/productappAdd' . '&user_token=' . $this->session->data['user_token'], true)
+        );
 
         $this->response->setOutput($this->load->view('extension/module/productappAdd', $data)); 
     }
