@@ -131,6 +131,8 @@ class ControllerExtensionModuleProductapp extends Controller {
             'href'=> $this->url->link('extension/module/productapp/productappAdd' . '&user_token=' . $this->session->data['user_token'], true)
         );
 
+        $data['text_form'] = !isset($this->request->get['product_id']) ? $this->language->get('text_add') : $this->language->get('text_edit');
+
         $this->response->setOutput($this->load->view('extension/module/productappAdd', $data)); 
     }
 
