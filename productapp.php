@@ -61,6 +61,8 @@ class ControllerExtensionModuleProductapp extends Controller {
 
         $results = $this->model_catalog_product->getProducts($filter_data);
 
+        $data['results_amount'] = sizeof($results);
+
         $data['products'] = array();
 
         $row_count = 0;
@@ -95,18 +97,29 @@ class ControllerExtensionModuleProductapp extends Controller {
             'href'=> $this->url->link('extension/module/productapp' . '&user_token=' . $this->session->data['user_token'], true)
         );
 
-        $data['add'] = $this->url->link('extension/module/productapp/addProductForm' . '&user_token=' . $this->session->data['user_token'], true);
+        $data['add'] = $this->url->link('extension/module/productapp/add' . '&user_token=' . $this->session->data['user_token'], true);
 
         $this->response->setOutput($this->load->view('extension/module/productapp', $data)); 
     }
 
-    public function addProductForm() {
-
+    public function add() {
         $this->load->language('catalog/product');
 
         $this->document->setTitle($this->language->get('text_add'));
 
         $this->load->model('catalog/product');
+
+        if (($this->request->server['REQUEST_METHOD'] == 'POST')) {
+
+            $this->model_catalog_product->addProduct($this->request->post);
+
+            $this->response->redirect($this->url->link('extension/module/productapp', 'user_token=' . $this->session->data['user_token'], true));
+        }
+
+        $this->getForm();
+    }
+
+    public function getForm() {
 
         $data= array();
 
@@ -118,20 +131,69 @@ class ControllerExtensionModuleProductapp extends Controller {
 
         $data['breadcrumbs'][] = array(
             'text'=> $this->language->get('text_home'),
-            'href'=> $this->url->link('common/dashboard' . '&user_token=' . $this->session->data['user_token'], true)
+            'href'=> $this->url->link('common/dashboard', 'user_token=' . $this->session->data['user_token'], true)
         );
 
         $data['breadcrumbs'][] = array(
             'text'=> $this->language->get('heading_title'),
-            'href'=> $this->url->link('extension/module/productapp' . '&user_token=' . $this->session->data['user_token'], true)
+            'href'=> $this->url->link('extension/module/productapp', 'user_token=' . $this->session->data['user_token'], true)
         );
 
         $data['breadcrumbs'][] = array(
             'text'=> $this->language->get('text_add'),
-            'href'=> $this->url->link('extension/module/productapp/productappAdd' . '&user_token=' . $this->session->data['user_token'], true)
+            'href'=> $this->url->link('extension/module/productapp/add', 'user_token=' . $this->session->data['user_token'], true)
         );
 
         $data['text_form'] = !isset($this->request->get['product_id']) ? $this->language->get('text_add') : $this->language->get('text_edit');
+
+        if (!isset($this->request->get['product_id'])) {
+            $data['action'] = $this->url->link('extension/module/productapp/add', 'user_token=' . $this->session->data['user_token'], true);
+        } else {
+            $data['action'] = $this->url->link('extension/module/productapp/edit', 'user_token=' . $this->session->data['user_token'], true);
+        }
+
+        if(isset($this->request->post['name'])) {
+            $data['name'] = $this->request->post['name'];
+        } else {
+            $data['name'] = '';
+        }
+
+        if(isset($this->request->post['tag'])) {
+            $data['tag'] = $this->request->post['tag'];
+        } else {
+            $data['tag'] = '';
+        }
+
+        if(isset($this->request->post['meta_title'])) {
+            $data['meta_title'] = $this->request->post['meta_title'];
+        } else {
+            $data['meta_title'] = '';
+        }
+
+        if(isset($this->request->post['model'])) {
+            $data['model'] = $this->request->post['model'];
+        } else {
+            $data['model'] = '';
+        }
+
+        if(isset($this->request->post['price'])) {
+            $data['price'] = $this->request->post['price'];
+        } else {
+            $data['price'] = '';
+        }
+
+        if(isset($this->request->post['quantity'])) {
+            $data['quantity'] = $this->request->post['quantity'];
+        } else {
+            $data['quantity'] = '';
+        }
+
+        if(isset($this->request->post['status'])) {
+            $data['status'] = $this->request->post['status'];
+        } else {
+            $data['status'] = '';
+        }
+        
 
         $this->response->setOutput($this->load->view('extension/module/productappAdd', $data)); 
     }
