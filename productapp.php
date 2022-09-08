@@ -65,10 +65,10 @@ class ControllerExtensionModuleProductapp extends Controller {
 
         $data['products'] = array();
 
-        $row_count = 0;
+        // $row_count = 0;
 
-        while (isset($results[$row_count])) {
-
+        // while (isset($results[$row_count])) {
+        for ($row_count = 0; $row_count < sizeof($results); $row_count++) {    
             $data['products'][$row_count] = array(
                 'product_id' => $results[$row_count]['product_id'],
                 'name' => $results[$row_count]['name'],
@@ -78,8 +78,9 @@ class ControllerExtensionModuleProductapp extends Controller {
                 'status' => $results[$row_count]['status']
             );
 
-            $row_count ++;
+            // $row_count ++;
         }
+        // }
 
         $data['header'] = $this->load->controller('common/header');
 		$data['column_left'] = $this->load->controller('common/column_left');
