@@ -194,6 +194,8 @@ class ControllerExtensionModuleProductapp extends Controller {
         } else {
             $data['status'] = '';
         }
+
+        $data['language_id'] = 1;
         
 
         $this->response->setOutput($this->load->view('extension/module/productappAdd', $data)); 
