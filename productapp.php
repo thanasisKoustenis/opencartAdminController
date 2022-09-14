@@ -153,23 +153,32 @@ class ControllerExtensionModuleProductapp extends Controller {
             $data['action'] = $this->url->link('extension/module/productapp/edit', 'user_token=' . $this->session->data['user_token'], true);
         }
 
-        if(isset($this->request->post['name'])) {
-            $data['name'] = $this->request->post['name'];
-        } else {
-            $data['name'] = '';
+        // if(isset($this->request->post['name'])) {
+        //     $data['name'] = $this->request->post['name'];
+        // } else {
+        //     $data['name'] = '';
+        // }
+        
+        if(isset($this->request->post['product_description'])) {
+            $data['product_description'] = $this->request->post['product_description'];
+        } elseif (isset($this->request->post['product_id'])){
+            $data['product_description'] = $this->model_catalog_product->getProductDescriptions($this->request->get['product_id']);
+        }
+        else {
+            $data['description'] = array();
         }
 
-        if(isset($this->request->post['tag'])) {
-            $data['tag'] = $this->request->post['tag'];
-        } else {
-            $data['tag'] = '';
-        }
+        // if(isset($this->request->post['tag'])) {
+        //     $data['tag'] = $this->request->post['tag'];
+        // } else {
+        //     $data['tag'] = '';
+        // }
 
-        if(isset($this->request->post['meta_title'])) {
-            $data['meta_title'] = $this->request->post['meta_title'];
-        } else {
-            $data['meta_title'] = '';
-        }
+        // if(isset($this->request->post['meta_title'])) {
+        //     $data['meta_title'] = $this->request->post['meta_title'];
+        // } else {
+        //     $data['meta_title'] = '';
+        // }
 
         if(isset($this->request->post['model'])) {
             $data['model'] = $this->request->post['model'];
@@ -195,7 +204,7 @@ class ControllerExtensionModuleProductapp extends Controller {
             $data['status'] = '';
         }
 
-        $data['language_id'] = 1;
+       
         
 
         $this->response->setOutput($this->load->view('extension/module/productappAdd', $data)); 
