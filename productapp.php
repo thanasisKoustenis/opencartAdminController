@@ -120,6 +120,23 @@ class ControllerExtensionModuleProductapp extends Controller {
         $this->getForm();
     }
 
+    public function edit() {
+        $this->load->language('catalog/product');
+
+        $this->document->setTitle($this->language->get('text_add'));
+
+        $this->load->model('catalog/product');
+
+        if (($this->request->server['REQUEST_METHOD'] == 'POST')) {
+
+            $this->model_catalog_product->editProduct($this->request->get['product_id'], $this->request->post);
+
+            $this->response->redirect($this->url->link('extension/module/productapp', 'user_token=' . $this->session->data['user_token'], true));
+        }
+
+        $this->getForm();
+    }
+
     public function getForm() {
 
         $data= array();
