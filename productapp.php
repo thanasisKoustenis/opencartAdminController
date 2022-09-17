@@ -75,7 +75,8 @@ class ControllerExtensionModuleProductapp extends Controller {
                 'model' => $results[$row_count]['model'],
                 'price' => $results[$row_count]['price'],
                 'quantity' => $results[$row_count]['quantity'],
-                'status' => $results[$row_count]['status']
+                'status' => $results[$row_count]['status'],
+                'edit' => $this->url->link('extension/module/productapp/edit' . '&user_token=' . $this->session->data['user_token'] . '&product_id=' . $results[$row_count]['product_id'], true)
             );
 
             // $row_count ++;
@@ -99,6 +100,7 @@ class ControllerExtensionModuleProductapp extends Controller {
         );
 
         $data['add'] = $this->url->link('extension/module/productapp/add' . '&user_token=' . $this->session->data['user_token'], true);
+        // $data['edit'] = $this->url->link('extension/module/productapp/edit' . '&user_token=' . $this->session->data['user_token'], true);
 
         $this->response->setOutput($this->load->view('extension/module/productapp', $data)); 
     }
@@ -178,12 +180,17 @@ class ControllerExtensionModuleProductapp extends Controller {
         
         if(isset($this->request->post['product_description'])) {
             $data['product_description'] = $this->request->post['product_description'];
-        } elseif (isset($this->request->post['product_id'])){
+        } elseif (isset($this->request->get['product_id'])){
             $data['product_description'] = $this->model_catalog_product->getProductDescriptions($this->request->get['product_id']);
         }
         else {
             $data['description'] = array();
         }
+
+        $this->load->model('localisation/language');
+
+        $data['languages'] = $this->model_localisation_language->getLanguages();
+        // $data['language_id'] = 1;
 
         // if(isset($this->request->post['tag'])) {
         //     $data['tag'] = $this->request->post['tag'];
