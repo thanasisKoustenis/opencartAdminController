@@ -76,7 +76,7 @@ class ControllerExtensionModuleProductapp extends Controller {
                 'price' => $results[$row_count]['price'],
                 'quantity' => $results[$row_count]['quantity'],
                 'status' => $results[$row_count]['status'],
-                'edit' => $this->url->link('extension/module/productapp/edit' . '&user_token=' . $this->session->data['user_token'] . '&product_id=' . $results[$row_count]['product_id'], true)
+                'edit' => $this->url->link('extension/module/productapp/edit' , 'user_token=' . $this->session->data['user_token'] . '&product_id=' . $results[$row_count]['product_id'], true)
             );
 
             // $row_count ++;
@@ -103,6 +103,7 @@ class ControllerExtensionModuleProductapp extends Controller {
         // $data['edit'] = $this->url->link('extension/module/productapp/edit' . '&user_token=' . $this->session->data['user_token'], true);
 
         $this->response->setOutput($this->load->view('extension/module/productapp', $data)); 
+
     }
 
     public function add() {
@@ -115,6 +116,9 @@ class ControllerExtensionModuleProductapp extends Controller {
         if (($this->request->server['REQUEST_METHOD'] == 'POST')) {
 
             $this->model_catalog_product->addProduct($this->request->post);
+
+            // print_r($_POST);
+            // print_r($_GET);
 
             $this->response->redirect($this->url->link('extension/module/productapp', 'user_token=' . $this->session->data['user_token'], true));
         }
@@ -133,6 +137,9 @@ class ControllerExtensionModuleProductapp extends Controller {
 
             $this->model_catalog_product->editProduct($this->request->get['product_id'], $this->request->post);
 
+           
+            // print_r($_POST);
+            // print_r($_GET);
             $this->response->redirect($this->url->link('extension/module/productapp', 'user_token=' . $this->session->data['user_token'], true));
         }
 
@@ -169,7 +176,7 @@ class ControllerExtensionModuleProductapp extends Controller {
         if (!isset($this->request->get['product_id'])) {
             $data['action'] = $this->url->link('extension/module/productapp/add', 'user_token=' . $this->session->data['user_token'], true);
         } else {
-            $data['action'] = $this->url->link('extension/module/productapp/edit', 'user_token=' . $this->session->data['user_token'], true);
+            $data['action'] = $this->url->link('extension/module/productapp/edit', 'user_token=' . $this->session->data['user_token'] . '&product_id=' . $this->request->get['product_id'], true);
         }
 
         // if(isset($this->request->post['name'])) {
@@ -184,7 +191,11 @@ class ControllerExtensionModuleProductapp extends Controller {
             $data['product_description'] = $this->model_catalog_product->getProductDescriptions($this->request->get['product_id']);
         }
         else {
-            $data['description'] = array();
+            $data['product_description'] = array();
+        }
+
+        if (isset($this->request->get['product_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
+            $product_info = $this->model_catalog_product->getProduct($this->request->get['product_id']);
         }
 
         $this->load->model('localisation/language');
@@ -206,24 +217,32 @@ class ControllerExtensionModuleProductapp extends Controller {
 
         if(isset($this->request->post['model'])) {
             $data['model'] = $this->request->post['model'];
+        } elseif (!empty($product_info)){
+            $data['model'] = $product_info['model'];
         } else {
             $data['model'] = '';
         }
 
         if(isset($this->request->post['price'])) {
             $data['price'] = $this->request->post['price'];
+        } elseif (!empty($product_info)){
+            $data['price'] = $product_info['price'];
         } else {
             $data['price'] = '';
         }
 
         if(isset($this->request->post['quantity'])) {
             $data['quantity'] = $this->request->post['quantity'];
+        } elseif (!empty($product_info)){
+            $data['quantity'] = $product_info['quantity'];
         } else {
             $data['quantity'] = '';
         }
 
         if(isset($this->request->post['status'])) {
             $data['status'] = $this->request->post['status'];
+        } elseif (!empty($product_info)){
+            $data['status'] = $product_info['status'];
         } else {
             $data['status'] = '';
         }
