@@ -101,6 +101,7 @@ class ControllerExtensionModuleProductapp extends Controller {
 
         $data['add'] = $this->url->link('extension/module/productapp/add' . '&user_token=' . $this->session->data['user_token'], true);
         // $data['edit'] = $this->url->link('extension/module/productapp/edit' . '&user_token=' . $this->session->data['user_token'], true);
+        $data['delete'] = $this->url->link('extension/module/productapp/delete' . '&user_token=' . $this->session->data['user_token'], true);
 
         $this->response->setOutput($this->load->view('extension/module/productapp', $data)); 
 
@@ -144,6 +145,31 @@ class ControllerExtensionModuleProductapp extends Controller {
         }
 
         $this->getForm();
+    }
+
+    public function delete() {
+        $this->load->language('catalog/product');
+
+        $this->document->setTitle($this->language->get('text_add'));
+
+        $this->load->model('catalog/product');
+
+        if (($this->request->server['REQUEST_METHOD'] == 'POST')) {
+
+            if (isset($this->request->post['selected'])) {
+                foreach($this->request->post['selected'] as $product_id) {
+                    $this->model_catalog_product->deleteProduct($product_id);
+                }
+            }
+            
+
+           
+            // print_r($_POST);
+            // print_r($_GET);
+            $this->response->redirect($this->url->link('extension/module/productapp', 'user_token=' . $this->session->data['user_token'], true));
+        }
+
+        $this->getList();
     }
 
     public function getForm() {
